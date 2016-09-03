@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
-        android:text="New Text"
+        android:text="View My Devices"
 
         android:layout_row="2"
         android:textStyle="bold"/>
