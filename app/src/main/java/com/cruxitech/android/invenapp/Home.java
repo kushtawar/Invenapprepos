@@ -1,36 +1,45 @@
 package com.cruxitech.android.invenapp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class Home extends BaseActivity {
 
     ListView homelist=null;
 
+    int[] homecatimgs={R.drawable.admin_2,R.drawable.viewmy_1,R.drawable.viewall,R.drawable.addsymbol};
+    String[] homecatnames={"Admin","My Devices","View All Devices","Add New Device"};
+    String[] homecatcount={"","","",""};
+    String[] homecatextra={"","","",""};
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         homelist = (ListView)findViewById(R.id.listhomescreen);
 
-homelist.setAdapter(new ArrayAdapter<String>(Home.this,R.layout.list_landingpage));
+        HomeAdapter homeadap=new HomeAdapter(this,homecatimgs,homecatnames,homecatcount,homecatextra);
+
+        homelist.setAdapter(homeadap);
+
+
+        homelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(),homecatnames[position],Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
     }
 
 }
