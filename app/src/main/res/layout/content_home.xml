@@ -23,7 +23,23 @@
             tools:showIn="@layout/activity_home">
 
 
+            <TextView
+                android:id="@+id/txtviewAccountStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:layout_centerHorizontal="true"
+                android:textColor="#19540b"
+                android:text="Activate Account"
+                android:typeface="serif"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:visibility="gone"
+                android:onClick="accountactive"
+                />
 
             <ListView
                 android:id="@+id/listhomescreen"
