@@ -11,15 +11,18 @@
         android:title="Refresh"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/usersettings"
 
-        android:title="Settings"
-        app:showAsAction="never"/>
     <item android:id="@+id/logout"
 
         android:title="Logout"
         app:showAsAction="never"/>
 
+
+
+    <item android:id="@+id/usersettings"
+
+        android:title="Change Password"
+        app:showAsAction="never"/>
     <item android:id="@+id/about"
         android:orderInCategory="100"
         android:title="About"

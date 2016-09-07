@@ -55,7 +55,7 @@ public class Register extends AppCompatActivity implements AsyncResponse{
 
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
-                            builder.setMessage("Please login now and use the unique 6 digit code sent on your registered email to activate your account");
+                            builder.setMessage("Please Login and then use the unique 6 digit code sent on your registered email to activate your account");
 
                             builder.setTitle(Html.fromHtml("<font color='#D23927'>" + "Registration Successful" + "</font>"));
                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.cruxitech.android.invenapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -26,11 +28,13 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
 
     SessionManager session;
-    TextView txtLoginHeader;
-    EditText ET_NAME,ET_PASS;
-    String login_name,login_pass;
-    Button btnLogin;
+    static TextView txtLoginHeader,backtologin,userReg,forgotpass;
+    static EditText ET_NAME,ET_PASS,ET_EMAIL;
+    String login_name,login_pass,email;
+    static Button btnLogin,btnSubmit;
     AlertDialog.Builder builder = null;
+
+    private static boolean failflag=false;
 
      public static SharedPreferences gameSettings;
      public static SharedPreferences.Editor prefEditor;
@@ -44,7 +48,11 @@ public static String methodmain=null;
         session = new SessionManager(getApplicationContext());
         setContentView(com.cruxitech.android.invenapp.R.layout.activity_main);
 
-
+        ET_EMAIL = (EditText) findViewById(R.id.new_user_email);
+        btnSubmit= (Button)findViewById(R.id.btnSubmit);
+        backtologin=(TextView)findViewById(R.id.backtologin);
+        userReg=(TextView)findViewById(R.id.userReg);
+        forgotpass=(TextView)findViewById(R.id.forgotPass);
 
         if (!(session.isUserLoggedIn())) {
 
@@ -111,6 +119,43 @@ public static String methodmain=null;
         //finish();
 
     }
+
+    public void forgotpassword(View view)
+    {
+
+
+        ET_EMAIL.setVisibility(View.VISIBLE);
+        ET_EMAIL.setText(null);
+        btnSubmit.setVisibility(View.VISIBLE);
+        backtologin.setVisibility(View.VISIBLE);
+
+
+        ET_NAME.setVisibility(View.GONE);
+        ET_PASS.setVisibility(View.GONE);
+        btnLogin.setVisibility(View.GONE);
+        forgotpass.setVisibility(View.GONE);
+
+    }
+
+    public void setBacktologin(View view)
+    {
+
+setBacktologinview();
+    }
+
+    private void setBacktologinview() {
+
+        ET_EMAIL.setVisibility(View.GONE);
+        btnSubmit.setVisibility(View.GONE);
+        backtologin.setVisibility(View.GONE);
+
+        ET_NAME.setVisibility(View.VISIBLE);
+        ET_PASS.setVisibility(View.VISIBLE);
+        btnLogin.setVisibility(View.VISIBLE);
+        forgotpass.setVisibility(View.VISIBLE);
+    }
+
+
     public void userLogin(View view) {
         session.cleareditor();
 
@@ -234,6 +279,66 @@ public static String methodmain=null;
         Log.e("login2",output);
     }
 
+
+
+    public void sendCoderesetpassword(final View view) {
+
+        Validationrules validation=new Validationrules();
+
+        failflag=false;
+
+        if (validation.isEmailValid(ET_EMAIL)==false) {
+
+            failflag=true;
+        }
+
+
+if (!failflag) {
+
+    sendchangedpwd();
+
+
+}
+
+    }
+    public void createpopupblank(Context ctx, String setmessage,String settitle){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setMessage(setmessage);
+
+        builder.setTitle(Html.fromHtml("<font color='#D23927'>" + settitle + "</font>"));
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                setBacktologinview();
+            }
+        });
+        builder.setCancelable(true);
+        builder.create().show();
+    }
+
+    private void sendchangedpwd() {
+
+        String emailid = ET_EMAIL.getText().toString();
+
+        methodmain = "sendforgotpassword";
+        BackgroundTask bgtaskpermissions = new BackgroundTask(MainActivity.this, new AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                Log.e("invenapp:", "sendforgotpassword" + output);
+if(output.equals(StatusConstants.statusforgotpasswordSuccessful)) {
+    new MainActivity().createpopupblank(MainActivity.this, "A new password has been sent on your email.\n" +
+            "Password can be changed at any time from Menu->Settings.", "Password Sent");
+}
+            }
+        });
+
+
+            bgtaskpermissions.execute(methodmain, emailid);
+
+
+
+    }
 
 
 } //class

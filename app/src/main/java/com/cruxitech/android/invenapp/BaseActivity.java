@@ -2,6 +2,7 @@ package com.cruxitech.android.invenapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -74,6 +75,13 @@ public static String methodbase;
                logout();
 
                 return true;
+
+            case R.id.usersettings:
+
+               changePassword();
+
+                return true;
+
             case R.id.about:
                 showAbout();
                 return true;
@@ -85,6 +93,13 @@ public static String methodbase;
                 return super.onOptionsItemSelected(item);
         }
 
+
+    }
+
+    public void changePassword() {
+
+        Intent passwordchangeactivity = new Intent(BaseActivity.this, PasswordChange.class);
+        startActivity(passwordchangeactivity);
 
     }
 

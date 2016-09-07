@@ -78,7 +78,7 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
             lastupdatedby = bundle.getString("key_Devlastupdatedby");
             lastupdatedon = bundle.getString("key_Devlastupdatedon");
             callingclass=bundle.getString("callingclass");
-            Devlastupdatedbyandon.setText("Lastupdated by: " + lastupdatedby + " on: " + lastupdatedon);
+            Devlastupdatedbyandon.setText("Lastupdated by: " + lastupdatedby + " on: " + lastupdatedon + "IST");
 
             this.setdefaultvalues();
 

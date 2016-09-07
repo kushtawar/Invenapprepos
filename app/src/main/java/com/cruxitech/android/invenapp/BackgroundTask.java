@@ -112,6 +112,10 @@ break;
                     new CommonProcs().commonprogressdialog(mProgressDialog);
                     break;
 
+                case "sendforgotpassword":
+                    mProgressDialog.setMessage("Checking the submitted data!!");
+                    new CommonProcs().commonprogressdialog(mProgressDialog);
+                    break;
 
 
                 default:
@@ -146,8 +150,9 @@ break;
 
             break;
 
-        //case StatusConstants.insertionuserrolesSuccessful:
-
+        case "PasswordChange":
+            mProgressDialog.setMessage("Your password is being changed. Please do not press Back button..");
+            break;
 
         default:
             mProgressDialog.setMessage("Please do not press Back button..");
@@ -184,8 +189,93 @@ break;
 
         switch (method) {
 
-            case "activateaccount":
+
+            case "sendchangepassword":
                 String passeduserid = params[1];
+                String newpass = params[2];
+                String passedemailid = params[3];
+                String passedusername = params[4];
+
+                try {
+
+                    String data =
+                            URLEncoder.encode("passedusername", "UTF-8") + "=" + URLEncoder.encode(passedusername, "UTF-8")+"&" +
+                            URLEncoder.encode("passedemailid", "UTF-8") + "=" + URLEncoder.encode(passedemailid, "UTF-8")+"&" +
+                            URLEncoder.encode("passeduserid", "UTF-8") + "=" + URLEncoder.encode(passeduserid, "UTF-8")+ "&" +
+                                    URLEncoder.encode("methodtoexecute", "UTF-8") + "=" + URLEncoder.encode(method, "UTF-8")+ "&" +
+                                    URLEncoder.encode("newpass", "UTF-8") + "=" + URLEncoder.encode(newpass, "UTF-8");
+
+
+                    response= new CommonProcs().methodExecute(response,StatusConstants.commonwrite_url, data);
+
+
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error"))
+                    {
+                        return StatusConstants.statuschangepasswordUnsuccessful;
+                    }
+                    return StatusConstants.statuschangepasswordSuccessful;
+
+
+                }
+                catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                catch (UnknownHostException e) {
+                    Log.e("log_inventory", "Unable to connect to the host database");
+                    response = "Unknown host";
+                    e.printStackTrace();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+
+            case "sendforgotpassword":
+                String selectedemailid = params[1];
+
+                try {
+
+                    String data =
+                            URLEncoder.encode("selectedemailid", "UTF-8") + "=" + URLEncoder.encode(selectedemailid, "UTF-8")+ "&" +
+
+                                    URLEncoder.encode("methodtoexecute", "UTF-8") + "=" + URLEncoder.encode(method, "UTF-8");
+
+
+                    response= new CommonProcs().methodExecute(response,StatusConstants.commonwrite_url, data);
+
+
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error"))
+                    {
+                        return StatusConstants.statusforgotpasswordUnsuccessful;
+                    }
+                    return StatusConstants.statusforgotpasswordSuccessful;
+
+
+                }
+                catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                catch (UnknownHostException e) {
+                    Log.e("log_inventory", "Unable to connect to the host database");
+                    response = "Unknown host";
+                    e.printStackTrace();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+
+
+            case "activateaccount":
+                 passeduserid = params[1];
                 String hashkey=params[2];
                 String table_name=StatusConstants.userroles;
 
@@ -733,6 +823,20 @@ break;
 
 
                 Toast.makeText(ctx, StatusConstants.statusRegistrationErrorDuplicate, Toast.LENGTH_LONG).show();
+                new CommonProcs().dismisscommonprogressdialog(mProgressDialog);
+                delegate.processFinish(result);
+                break;
+
+            case StatusConstants.statusforgotpasswordSuccessful:
+
+                Toast.makeText(ctx, "Password reset:successful", Toast.LENGTH_SHORT).show();
+                new CommonProcs().dismisscommonprogressdialog(mProgressDialog);
+                delegate.processFinish(result);
+                break;
+
+            case StatusConstants.statuschangepasswordSuccessful:
+
+                Toast.makeText(ctx, "Password change:successful", Toast.LENGTH_SHORT).show();
                 new CommonProcs().dismisscommonprogressdialog(mProgressDialog);
                 delegate.processFinish(result);
                 break;

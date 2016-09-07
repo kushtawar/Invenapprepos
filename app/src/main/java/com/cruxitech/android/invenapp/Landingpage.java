@@ -26,7 +26,7 @@ public class Landingpage extends BaseActivity {
     Button btnViewmydevices=null;
     Button btnAddNewDevice=null;
     Button btnViewAllDevices=null;
-    TextView txtAccountStatus=null;
+    TextView txtheaderaccountactivate,txtAccountStatus=null;
      LayoutParams layoutparams ;
     public static String methodlanding;
     String loggedinusername,loggedinuniqueuserid,loggedinname,loggedinuseremail=null;
@@ -39,6 +39,7 @@ public class Landingpage extends BaseActivity {
         session=new SessionManager(this);
         landingpage=this;
 
+        txtheaderaccountactivate=(TextView)findViewById(R.id.txtHeaderAccountActivate);
         txtAccountStatus=(TextView)findViewById(R.id.txtviewAccountStatus);
          btnAdminView=(Button)findViewById(R.id.btnAdminView);
          btnViewmydevices=(Button)findViewById(R.id.btnViewmydevices);
@@ -75,13 +76,15 @@ public class Landingpage extends BaseActivity {
         btnAddNewDevice.setVisibility(View.GONE);
         btnViewAllDevices.setVisibility(View.GONE);
 //        mToolbar.setVisibility(View.GONE);
+            txtheaderaccountactivate.setVisibility(View.VISIBLE);
             txtAccountStatus.setVisibility(View.VISIBLE);
+            txtheaderaccountactivate.setGravity(Gravity.CENTER_HORIZONTAL);
             txtAccountStatus.setGravity(Gravity.CENTER_HORIZONTAL);
 
         }
         else
         {
-
+            txtheaderaccountactivate.setVisibility(View.GONE);
             txtAccountStatus.setVisibility(View.GONE);
 
         }
@@ -264,7 +267,7 @@ public class Landingpage extends BaseActivity {
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
-
+                setviewforpermissions();
             }
         });
         bgtaskpermissions.execute(methodbase, loggedinuniqueuserid);

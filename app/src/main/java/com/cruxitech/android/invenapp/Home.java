@@ -4,9 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Home extends BaseActivity {
+
+    SessionManager session;
+    TextView txtAccountStatus=null;
+    public static Home homepage;
+
 
     ListView homelist=null;
 
@@ -21,6 +27,14 @@ public class Home extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        session=new SessionManager(this);
+        homepage=this;
+
+        txtAccountStatus=(TextView)findViewById(R.id.txtviewAccountStatus);
+
+
+
+
 
         homelist = (ListView)findViewById(R.id.listhomescreen);
 

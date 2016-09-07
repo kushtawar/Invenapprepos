@@ -44,6 +44,11 @@ public class StatusConstants {
     public static final String statusactiveSuccessful="makeactive:successful";
     public static final String statusactiveUnsuccessful="makeactive:unsuccessful";
 
+    public static final String statusforgotpasswordSuccessful="password reset:successful";
+    public static final String statusforgotpasswordUnsuccessful="password reset:unsuccessful";
+
+    public static final String statuschangepasswordSuccessful="password change:successful";
+    public static final String statuschangepasswordUnsuccessful="password change:unsuccessful";
 
     //
 
