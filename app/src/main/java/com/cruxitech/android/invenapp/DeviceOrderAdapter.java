@@ -175,6 +175,7 @@ public class DeviceOrderAdapter extends BaseAdapter implements Filterable {
                             (filterList.get(i).getDevno().toUpperCase().contains(constraint))||
                             (filterList.get(i).getDevowner().toUpperCase().contains(constraint))||
                             (filterList.get(i).getDevicemodel().toUpperCase().contains(constraint))||
+                            (filterList.get(i).getDevicecluster().toUpperCase().contains(constraint))||
                             (filterList.get(i).getLastupdatedby().toUpperCase().contains(constraint))||
                             (filterList.get(i).getLastupdatedon().toUpperCase().contains(constraint)))
 

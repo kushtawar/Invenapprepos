@@ -1,24 +1,34 @@
 package com.cruxitech.android.invenapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class AddDevice extends BaseActivity implements AsyncResponse  {
 
-    Spinner DeviceType,DeviceLocation,DeviceManufacturer;
-            EditText DeviceNo,DeviceOwner,DeviceModel;
-    String devtype,devno,devowner,devlocation,devmanufacturer,devmodel;
+    Spinner DeviceType,DeviceLocation,DeviceManufacturer,DeviceOwner,DeviceCluster;
+            EditText DeviceNo,DeviceModel;
+    String devtype,devno,devowner,devlocation,devmanufacturer,devmodel,devcluster;
     Button btnAddDevice,btnViewDevices;
 private static boolean failflag=false;
 
+    int selecteduserid=0;
+    public static boolean flagitemsupdate=false;
+    String selectedusername="";
+
+
+    ArrayList<String> listItems=new ArrayList<>();
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,32 +36,23 @@ private static boolean failflag=false;
         setContentView(com.cruxitech.android.invenapp.R.layout.activity_add_device);
         DeviceType = (Spinner)findViewById(com.cruxitech.android.invenapp.R.id.spinnerDeviceType);
         DeviceNo = (EditText)findViewById(com.cruxitech.android.invenapp.R.id.editTextDeviceNo);
-        DeviceOwner = (EditText)findViewById(com.cruxitech.android.invenapp.R.id.editTextOwner);
+        DeviceOwner = (Spinner)findViewById(com.cruxitech.android.invenapp.R.id.spinnerTextOwner);
         DeviceLocation = (Spinner)findViewById(com.cruxitech.android.invenapp.R.id.spinnerDeviceLocation);
         DeviceManufacturer = (Spinner)findViewById(com.cruxitech.android.invenapp.R.id.spinnerDeviceManufacturer);
         DeviceModel = (EditText)findViewById(com.cruxitech.android.invenapp.R.id.editTextDeviceModel);
-
+        DeviceCluster = (Spinner)findViewById(R.id.spinnerDeviceCluster);
         btnAddDevice = (Button)findViewById(com.cruxitech.android.invenapp.R.id.buttonAdd);
 
 
 
-
-
-        DeviceModel.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    btnAddDevice.performClick();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-
-
+        this.getspinnerlistfromdatabase(getApplicationContext());
 
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+    }
+
     @Override
     public void onBackPressed()
     {
@@ -73,10 +74,11 @@ if(!failflag) {
 
     devtype = DeviceType.getSelectedItem().toString();
     devno = DeviceNo.getText().toString();
-    devowner = DeviceOwner.getText().toString();
+    devowner = DeviceOwner.getSelectedItem().toString();
     devlocation = DeviceLocation.getSelectedItem().toString();
     devmanufacturer = DeviceManufacturer.getSelectedItem().toString();
     devmodel = DeviceModel.getText().toString();
+    devcluster = DeviceCluster.getSelectedItem().toString();
 
 
     Log.d("cruxapp", "devtype:" + devtype);
@@ -87,16 +89,26 @@ if(!failflag) {
             Log.e("adddevice", output);
 
             if (output.equals(StatusConstants.statusAddDeviceSuccessful)) {
-                Intent inte = new Intent(AddDevice.this, AddDevice.class);
+
+               /* Intent inte = new Intent(AddDevice.this, AddDevice.class);
                 inte.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(inte);
+                startActivity(inte);*/
+
+                Toast.makeText(AddDevice.this, "Device Added successfully", Toast.LENGTH_LONG).show();
+
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }else
+            {
+                Toast.makeText(AddDevice.this, "Device could not be added. "+output, Toast.LENGTH_LONG).show();
             }
 
 
 
         }
     });
-    backgroundTask.execute(method, devtype, devlocation, devmanufacturer, devno, devowner, devmodel);
+    backgroundTask.execute(method, devtype, devlocation, devmanufacturer, devno, devowner, devmodel,devcluster);
 
 
 
@@ -122,7 +134,7 @@ if(!failflag) {
         Log.e("addevice2",output);
     }
 
-    private void  checkformvalidation() {
+    public void  checkformvalidation() {
 
         Validationrules validation=new Validationrules();
 
@@ -142,7 +154,7 @@ if(!failflag) {
             // Toast.makeText(AddDevice.this, "Form contains error", Toast.LENGTH_LONG).show();
             failflag=true;
         }
-        if (validation.isNullorhasNotext_EditText(DeviceOwner)) {
+        if (validation.isnullandhasText_Spinner(DeviceOwner)) {
             failflag=true;
         }
 
@@ -151,31 +163,69 @@ if(!failflag) {
         }
 
 
-    }
+        //Selected Value
+       /* if (validation.isSelectedValueProper(DeviceOwner)) {
+            failflag=true;
+        }*/
 
+
+
+    }
+    public void getspinnerlistfromdatabase(final Context ctx) {
+        String method = "updatelist";
+        String fieldtobeupdated = "users";
+
+        //   BackgroundTask.m_list=null;
+
+        BackgroundTask backgroundTask = new BackgroundTask(ctx, new AsyncResponse() {
+
+            @Override
+            public void processFinish(String output) {
+                Log.e("invenapp:method:", new CommonProcs().getMethodname() + ":output:" + output);
+                if (output.equals(StatusConstants.listretrievalSuccessful)) {
+
+                    listItems = BackgroundTask.m_list_users;
+
+                    listItems.add(0,StatusConstants.selectiontext);
+
+                    ArrayAdapter NoCoreAdapter = new ArrayAdapter(ctx,
+                            R.layout.spinner_layout, listItems);
+
+                    DeviceOwner.setAdapter(NoCoreAdapter);
+                    DeviceOwner.setSelection(listItems.indexOf(StatusConstants.selectiontext));
+
+
+                    DeviceOwner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                                   int arg2, long arg3) {
+                            // TODO Auto-generated method stub
+
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+
+
+
+
+                    AddDevice.flagitemsupdate=true;
+
+                    Log.e("invenapp:getlist:users", output);
+                }
+
+            }
+        });
+        backgroundTask.execute(method, fieldtobeupdated);
+    }
 
 
 }
 
-
-/*
-Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
-
-
-        */
-/**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * *//*
-
-        session.checkLogin();
-
-        // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
-
-        // name
-        String name = user.get(SessionManager.KEY_NAME);
-
-        // email
-        String email = user.get(SessionManager.KEY_EMAIL);*/

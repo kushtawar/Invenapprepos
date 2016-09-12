@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
+    android:elevation="4dp"
     android:background="@color/colorToolbar"
+
     theme="@style/MyToolbarStyle">
     <ImageView
         android:id="@+id/imagebuttonback"
@@ -18,21 +20,25 @@
         android:src="@mipmap/backbutton_1"
         />
 
-    <SearchView
+   <!-- <SearchView
         android:id="@+id/searchfield"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
+
         android:visibility="gone"
-android:backgroundTint="@color/colorAccent"
+
+        android:backgroundTint="@color/colorAccent"
         android:hint="Search devices.." >
-    </SearchView>
+    </SearchView>-->
+
+
 
     <ImageView
         android:id="@+id/deleteiconbase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="right"
         android:clickable="true"
         android:onClick="methodDeleteDevice"
         android:src="@mipmap/deleteicon_1"

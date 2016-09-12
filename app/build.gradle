@@ -8,8 +8,8 @@ android {
         applicationId "com.cruxitech.android.invenapp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.7_Test"
+        versionCode 9
+        versionName "1.9_Test"
     }
     buildTypes {
         release {

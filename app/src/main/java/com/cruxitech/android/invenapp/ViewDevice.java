@@ -1,13 +1,14 @@
 package com.cruxitech.android.invenapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,19 +17,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 public class ViewDevice extends BaseActivity {
 
 static boolean makeditable=true;
     SessionManager session;
-    Spinner DeviceType,DeviceLocation,DeviceManufacturer;
+    Spinner DeviceType,DeviceLocation,DeviceManufacturer,DeviceOwner,DeviceCluster;
     ImageView imgdevtype;
     TextView lastupdatedbyon,Devlastupdatedbyandon;
-    EditText DeviceNo,DeviceOwner,DeviceModel,Devlastupdatedby;
-    String devtype,devno,devowner,devlocation,devmanufacturer,devmodel,lastupdatedby,lastupdatedon,callingclass;
+    EditText DeviceNo,DeviceModel,Devlastupdatedby;
+    String devtype,devno,devowner,devlocation,devmanufacturer,devmodel,devcluster,lastupdatedby,lastupdatedon,callingclass;
     Button btnEditDevice,btnDeleteDevice,btnSaveDevice;
 private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,deviceno,deviceowner,devicemodel;
     private static boolean failflag=false;
+    ArrayList<String> listItems=new ArrayList<>();
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,24 +49,22 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
             DeviceLocation = (Spinner) findViewById(com.cruxitech.android.invenapp.R.id.spinnerDeviceLocation);
             DeviceManufacturer = (Spinner) findViewById(com.cruxitech.android.invenapp.R.id.spinnerDeviceManufacturer);
             DeviceNo = (EditText) findViewById(com.cruxitech.android.invenapp.R.id.editTextDeviceNo);
-            DeviceOwner = (EditText) findViewById(com.cruxitech.android.invenapp.R.id.editTextOwner);
+            DeviceOwner = (Spinner) findViewById(R.id.spinnerTextOwner);
             DeviceModel = (EditText) findViewById(com.cruxitech.android.invenapp.R.id.editTextDeviceModel);
+            DeviceCluster = (Spinner)findViewById(R.id.spinnerDeviceCluster);
             Devlastupdatedbyandon = (TextView) findViewById(R.id.lastupdatedbyandon);
             imgdevtype=(ImageView)findViewById(R.id.icondevtype);
 
             btnEditDevice = (Button) findViewById(R.id.buttonEdit);
             btnSaveDevice = (Button) findViewById(R.id.buttonSave);
 
-            DeviceModel.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        btnEditDevice.performClick();
-                        return true;
-                    }
-                    return false;
-                }
-            });
+            ImageView userimage=(ImageView)findViewById(R.id.userimage);
+            TextView toolbarusername=(TextView)findViewById(R.id.toolbarusername);
+
+            toolbarusername.setVisibility(View.GONE);
+            userimage.setVisibility(View.GONE);
+
+this.getspinnerlistfromdatabase(getApplicationContext());
 
 
             String[] devicetypeArray = getResources().getStringArray(R.array.devicetype_arrays);
@@ -74,6 +78,7 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
             deviceno = bundle.getString("key_Devno");
             deviceowner = bundle.getString("key_Devowner");
             devicemodel = bundle.getString("key_Devmodel");
+            devcluster=bundle.getString("key_cluster");
             devicemanufacturer = bundle.getString("key_Devmanufacturer");
             lastupdatedby = bundle.getString("key_Devlastupdatedby");
             lastupdatedon = bundle.getString("key_Devlastupdatedon");
@@ -96,8 +101,16 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+
+
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
         this.setviewforpermissions();
 
     }
@@ -136,6 +149,7 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
     public void methodMakeFieldsEditable(View V)
     {
         this.makefieldseditable(true);
+        ((TextView) DeviceOwner.getSelectedView()).setTextColor(Color.parseColor("#000000"));
         btnEditDevice.setVisibility(View.GONE);
         btnSaveDevice.setVisibility(View.VISIBLE);
     }
@@ -160,13 +174,9 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
                     dialog.dismiss();
 
 
-
-
-
-
                     devtype = DeviceType.getSelectedItem().toString();
                     devno = DeviceNo.getText().toString();
-                    devowner = DeviceOwner.getText().toString();
+                    devowner = DeviceOwner.getSelectedItem().toString();
                     devlocation = DeviceLocation.getSelectedItem().toString();
                     devmanufacturer = DeviceManufacturer.getSelectedItem().toString();
                     devmodel = DeviceModel.getText().toString();
@@ -184,11 +194,12 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
                                 dlgAlert.setTitle("Edit Device");
                                 dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
+                                        ((TextView) DeviceOwner.getSelectedView()).setTextColor(Color.parseColor("#FF9E9B9B"));
                                         DeviceNo.setEnabled(false);
                                         DeviceType.setEnabled(false);
                                         DeviceLocation.setEnabled(false);
                                         DeviceManufacturer.setEnabled(false);
-
+                                        DeviceCluster.setEnabled(false);
                                         DeviceOwner.setEnabled(false);
                                         DeviceModel.setEnabled(false);
                                         btnSaveDevice.setVisibility(View.GONE);
@@ -197,23 +208,20 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
                                 });
 
 
-
-
-
                                 dlgAlert.setCancelable(true);
                                 dlgAlert.create().show();
 
                                 Devlastupdatedbyandon.setText("Lastupdated by: " + session.getUserDetails().get(SessionManager.KEY_USERNAME) + " on: " + new CommonProcs().getCurrentTimeStamp());
 
 
-
-
+                            } else {
+                                Toast.makeText(ViewDevice.this, "Device could not be updated. " + output, Toast.LENGTH_LONG).show();
                             }
 
 
                         }
                     });
-                    backgroundTask.execute(method, devtype, devlocation, devmanufacturer, devno, devowner, devmodel, devuniqueid);
+                    backgroundTask.execute(method, devtype, devlocation, devmanufacturer, devno, devowner, devmodel, devuniqueid, devcluster);
                 }
 
             });
@@ -221,7 +229,7 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       // setdefaultvalues();
+                        // setdefaultvalues();
                         // Do nothing
                         dialog.dismiss();
                     }
@@ -303,10 +311,11 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
         // startActivity(new Intent(this, ViewAllDevices.class));
     }
 
-    private void checkformvalidation() {
+    public void  checkformvalidation() {
 
         Validationrules validation=new Validationrules();
 
+        failflag=false;
         if (validation.isnullandhasText_Spinner(DeviceType)) {
             failflag=true;
         }
@@ -322,7 +331,7 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
             // Toast.makeText(AddDevice.this, "Form contains error", Toast.LENGTH_LONG).show();
             failflag=true;
         }
-        if (validation.isNullorhasNotext_EditText(DeviceOwner)) {
+        if (validation.isnullandhasText_Spinner(DeviceOwner)) {
             failflag=true;
         }
 
@@ -331,17 +340,19 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
         }
 
 
+
     }
 
 
     private void setdefaultvalues() {
 
         this.makefieldseditable(true);
+
         DeviceType.setSelection(((ArrayAdapter) DeviceType.getAdapter()).getPosition(devicetype));
     DeviceLocation.setSelection(((ArrayAdapter) DeviceLocation.getAdapter()).getPosition(devicelocation));
-    DeviceManufacturer.setSelection(((ArrayAdapter) DeviceManufacturer.getAdapter()).getPosition(devicemanufacturer));
+        DeviceManufacturer.setSelection(((ArrayAdapter) DeviceManufacturer.getAdapter()).getPosition(devicemanufacturer));
     DeviceNo.setText(deviceno);
-    DeviceOwner.setText(deviceowner);
+     //   DeviceOwner.setSelection(listItems.indexOf(deviceowner));
     DeviceModel.setText(devicemodel);
 
 this.makefieldseditable(false);
@@ -355,9 +366,11 @@ this.makefieldseditable(false);
         DeviceType.setEnabled(settoEnable);
         DeviceLocation.setEnabled(settoEnable);
         DeviceManufacturer.setEnabled(settoEnable);
-
+        DeviceCluster.setEnabled(settoEnable);
         DeviceOwner.setEnabled(settoEnable);
         DeviceModel.setEnabled(settoEnable);
+
+
 
 
 
@@ -397,7 +410,76 @@ this.makefieldseditable(false);
     }
 
 
+    public void getspinnerlistfromdatabase(final Context ctx) {
+        String method = "updatelist";
+        String fieldtobeupdated = "users";
 
+        //   BackgroundTask.m_list=null;
+
+        BackgroundTask backgroundTask = new BackgroundTask(ctx, new AsyncResponse() {
+
+            @Override
+            public void processFinish(String output) {
+                Log.e("invenapp:method:", new CommonProcs().getMethodname() + ":output:" + output);
+                if (output.equals(StatusConstants.listretrievalSuccessful)) {
+
+                    listItems = BackgroundTask.m_list_users;
+
+                    listItems.add(0, StatusConstants.selectiontext);
+
+                    ArrayAdapter NoCoreAdapter = new ArrayAdapter(ctx,
+                            R.layout.spinner_layout, listItems);
+
+                    DeviceOwner.setAdapter(NoCoreAdapter);
+                    DeviceOwner.setEnabled(true);
+
+                    if(listItems.indexOf(deviceowner)<0){
+                        DeviceOwner.setSelection(listItems.indexOf("others"));
+                    }else
+                    {
+                        DeviceOwner.setSelection(listItems.indexOf(deviceowner));
+                    }
+
+
+                    DeviceOwner.setEnabled(false);
+
+                    DeviceOwner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View arg1,
+                                                   int arg2, long arg3) {
+
+
+                            if (DeviceOwner.isEnabled())
+                            {
+                                ((TextView) arg1).setTextColor(Color.parseColor("#000000"));
+                        }else
+                            {
+                                ((TextView) arg1).setTextColor(Color.parseColor("#FF9E9B9B"));
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+
+
+
+
+                    AddDevice.flagitemsupdate=true;
+
+                    Log.e("invenapp:getlist:users", output);
+                }
+
+            }
+        });
+        backgroundTask.execute(method, fieldtobeupdated);
+    }
 
 
 

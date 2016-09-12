@@ -31,9 +31,30 @@ public class Validationrules {
             return false;
         }
 
+    }
 
+    public boolean isValidLength_EditText(EditText editText)
+    {
+
+        String text = editText.getText().toString().trim();
+        editText.setError(null);
+
+        // length 0 means there is no text
+        if (text.length() <6) {
+            editText.setError("Username must have at least 6 characters");
+            return true;
+        }else
+        {
+            editText.setError(null);
+            return false;
+        }
 
     }
+
+
+
+
+
 
     public boolean isnullandhasText_Spinner(Spinner spinner)
     {
@@ -45,7 +66,6 @@ public class Validationrules {
             selectedTextView.setError(null);
         }
         String text = spinner.getSelectedItem().toString().trim();
-
 
         // length 0 means there is no text
         if (text.length() == 0) {
@@ -60,6 +80,28 @@ public class Validationrules {
 
 
     }
+
+    public boolean isSelectedValueProper(Spinner spinner)
+    {
+        View selectedView = spinner.getSelectedView();
+        TextView selectedTextView=null;
+        selectedTextView = (TextView) selectedView;
+
+
+        String text = spinner.getSelectedItem().toString().trim();
+        if (text.equals(StatusConstants.selectiontext)) {
+            selectedTextView.setError("Select proper value");
+            return true;
+
+        }
+        else {
+            selectedTextView.setError(null);
+            return true;
+        }
+
+    }
+
+
 
 
     public boolean isPasswordValid(EditText editText)

@@ -12,6 +12,7 @@ public class DeviceOrder {
     private String deviceno ;
     private String deviceowner;
     private String devicemodel;
+    private String devicecluster;
     private String lastupdatedon;
     private String lastupdatedby;
     private String imgdevtype;
@@ -74,6 +75,15 @@ public class DeviceOrder {
     public void setDevicemodel(String devicemodel) {
         this.devicemodel = devicemodel;
     }
+
+
+    public String getDevicecluster() {
+        return devicecluster;
+    }
+    public void setDevicecluster(String devicecluster) {
+        this.devicecluster = devicecluster;
+    }
+
 
     public String getLastupdatedon()
     {

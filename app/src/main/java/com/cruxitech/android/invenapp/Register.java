@@ -111,10 +111,19 @@ public class Register extends AppCompatActivity implements AsyncResponse{
             // Toast.makeText(AddDevice.this, "Form contains error", Toast.LENGTH_LONG).show();
             failflag=true;
         }
-        if (validation.isNullorhasNotext_EditText(ET_USER_NAME)==true) {
+
+        if (validation.isNullorhasNotext_EditText(ET_USER_NAME) == true) {
             // Toast.makeText(AddDevice.this, "Form contains error", Toast.LENGTH_LONG).show();
             failflag=true;
         }
+        if (validation.isValidLength_EditText(ET_USER_NAME)==true) {
+            // Toast.makeText(AddDevice.this, "Form contains error", Toast.LENGTH_LONG).show();
+            failflag=true;
+
+        }
+
+
+
         if (validation.isPasswordValid(ET_USER_PASS)==false) {
             passwordvalidationerror=Validationrules.passwordfailuremessage;
             failflag=true;

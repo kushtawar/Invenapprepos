@@ -16,6 +16,7 @@ public class StatusConstants {
 
     public static final String statusAddDeviceSuccessful="adddevice:successful";
     public static final String statusAddDeviceUnsuccessful="adddevice:unsuccessful";
+    public static final String statusDeviceErrorDuplicate="Duplicate Device Number-Device not updated";
 
     public static final String statusViewAllDevicesSuccessful="viewalldevices:successful";
     public static final String statusViewAllDevicesUnsuccessful="viewalldevices:unsuccessful";
@@ -52,7 +53,7 @@ public class StatusConstants {
 
     //
 
-
+    public static final String selectiontext="    ";
     //
 
 

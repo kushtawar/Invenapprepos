@@ -35,6 +35,8 @@ public static String methodbase;
         loggedinname=session.getUserDetails().get(SessionManager.KEY_NAME);
         loggedinuseremail=session.getUserDetails().get(SessionManager.KEY_EMAIL);
 
+
+
     }
 
     @Override
@@ -56,6 +58,9 @@ public static String methodbase;
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);//Menu Resource, Menu
+
+        MenuItem menusearch = menu.findItem(R.id.menu_search);
+        menusearch.setVisible(false);
         return true;
     }
 
@@ -64,6 +69,11 @@ public static String methodbase;
         switch (item.getItemId()) {
 
 
+
+case R.id.menu_search:
+
+        this.callsearchfunction();
+          return true;
 
 
             case R.id.refresh:
@@ -94,6 +104,9 @@ public static String methodbase;
         }
 
 
+    }
+
+    public void callsearchfunction() {
     }
 
     public void changePassword() {

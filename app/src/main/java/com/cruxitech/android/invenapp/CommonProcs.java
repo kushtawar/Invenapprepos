@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.Html;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,7 +49,7 @@ public class CommonProcs  {
 
     public Bundle onClickViewDeviceList(Context ctx,DeviceOrderAdapter m_adapter,int i, Intent newActivity) {
         DeviceOrder oi= (DeviceOrder) m_adapter.getItem(i);
-        Toast.makeText(ctx, "You Clicked " + oi.getDevuniqueid(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(ctx, "You Clicked " + oi.getDevuniqueid(), Toast.LENGTH_SHORT).show();
 
 
 
@@ -65,7 +64,7 @@ public class CommonProcs  {
         b.putString("key_Devno", oi.getDevno());
         b.putString("key_Devowner", oi.getDevowner());
         b.putString("key_Devmodel", oi.getDevicemodel());
-
+        b.putString("key_cluster", oi.getDevicecluster());
         b.putString("key_Devlastupdatedby", oi.getLastupdatedby());
         b.putString("key_Devlastupdatedon", oi.getLastupdatedon());
 //b.putString("key_Devlastupdatedon", m_adapter.getItem(i).getLastupdatedon());
@@ -133,6 +132,7 @@ public class CommonProcs  {
                 d1.setDevno(json.getString("deviceno"));
                 d1.setDevowner(json.getString("deviceowner"));
                 d1.setDevicemodel(json.getString("devicemodel"));
+                d1.setDevicecluster(json.getString("cluster"));
                 d1.setLastupdatedon(json.getString("lastupdatedon"));
                 d1.setLastupdatedby(json.getString("lastupdatedby"));
 

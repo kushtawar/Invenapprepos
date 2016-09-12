@@ -291,7 +291,7 @@ break;
                     response= new CommonProcs().methodExecute(response,StatusConstants.commonwrite_url, data);
 
 
-                    if (response.toLowerCase().contains(":unsuccessful"))
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error"))
                     {
                         return StatusConstants.statusactiveUnsuccessful;
                     }
@@ -442,7 +442,7 @@ break;
                 new CommonProcs().getDeviceOrders(jArray);
 
                     // response="viewdevices";
-                    if (response.toLowerCase().contains(":unsuccessful")){
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error")){
                         return StatusConstants.statusViewAllDevicesUnsuccessful;
 
                     }
@@ -485,7 +485,8 @@ break;
 
                     // response="viewdevices";
 
-                    if (response.toLowerCase().contains(":unsuccessful")){
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error"))
+                    {
                         return StatusConstants.statusViewMyDeviceUnsuccessful;
 
                     }
@@ -519,6 +520,7 @@ break;
                 String dev_no = params[4];
                 String dev_owner = params[5];
                 String dev_model = params[6];
+                String cluster = params[7];
                 String dev_lastupdatedby = loggedin_username;
                 table_name = method;
 
@@ -532,13 +534,19 @@ break;
                             URLEncoder.encode("device_no", "UTF-8") + "=" + URLEncoder.encode(dev_no, "UTF-8") + "&" +
                             URLEncoder.encode("device_owner", "UTF-8") + "=" + URLEncoder.encode(dev_owner, "UTF-8") + "&" +
                             URLEncoder.encode("device_model", "UTF-8") + "=" + URLEncoder.encode(dev_model, "UTF-8") + "&" +
+                            URLEncoder.encode("cluster", "UTF-8") + "=" + URLEncoder.encode(cluster, "UTF-8") + "&" +
                             URLEncoder.encode("device_lastupdatedby", "UTF-8") + "=" + URLEncoder.encode(dev_lastupdatedby, "UTF-8") + "&" +
                             URLEncoder.encode("table_name", "UTF-8") + "=" + URLEncoder.encode(table_name, "UTF-8")+ "&" +
                             URLEncoder.encode("methodtoexecute", "UTF-8") + "=" + URLEncoder.encode(methodtoexecute, "UTF-8");
 
                    response= new CommonProcs().methodExecute(response,StatusConstants.commonwrite_url, data);
 
-                    if (response.toLowerCase().contains(":unsuccessful")){
+                    if (response.toLowerCase().contains("duplicate")) {
+                        return StatusConstants.statusDeviceErrorDuplicate;
+
+                    }
+                    else if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error"))
+                    {
                         return StatusConstants.statusAddDeviceUnsuccessful;
 
                     }
@@ -571,6 +579,7 @@ break;
                 String edit_dev_owner = params[5];
                 String edit_dev_model = params[6];
                 String edit_devuniqueid = params[7];
+                 cluster = params[8];
                 String edit_dev_lastupdatedby = loggedin_username;
                 table_name = method;
                  methodtoexecute="updatedevice";
@@ -585,11 +594,17 @@ break;
                             URLEncoder.encode("device_lastupdatedby", "UTF-8") + "=" + URLEncoder.encode(edit_dev_lastupdatedby, "UTF-8") + "&" +
                             URLEncoder.encode("table_name", "UTF-8") + "=" + URLEncoder.encode(table_name, "UTF-8") + "&" +
                             URLEncoder.encode("record_devuniqueid", "UTF-8") + "=" + URLEncoder.encode(edit_devuniqueid, "UTF-8")+ "&" +
+                            URLEncoder.encode("cluster", "UTF-8") + "=" + URLEncoder.encode(cluster, "UTF-8") + "&" +
                             URLEncoder.encode("methodtoexecute", "UTF-8") + "=" + URLEncoder.encode(methodtoexecute, "UTF-8");;
 
                     response=new CommonProcs().methodExecute(response,StatusConstants.commonwrite_url, data);
 
-                    if (response.toLowerCase().contains(":unsuccessful")){
+                    if (response.toLowerCase().contains("duplicate")) {
+                        return StatusConstants.statusDeviceErrorDuplicate;
+
+                    }
+                    else if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error"))
+                    {
                         return StatusConstants.statusEditviewDeviceUnsuccessful;
 
                     }
@@ -627,7 +642,8 @@ break;
 
                     response=new CommonProcs().methodExecute(response,StatusConstants.commonwrite_url,data);
 
-                    if (response.toLowerCase().contains(":unsuccessful")){
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error"))
+                    {
                         return StatusConstants.statusDeleteOneDeviceUnsuccessful;
 
                     }
@@ -718,7 +734,7 @@ break;
 
 
 
-                    if (response.toLowerCase().contains(":unsuccessful")){
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error")){
                         return StatusConstants.insertionuserrolesUnSuccessful;
 
                     }
@@ -758,7 +774,7 @@ break;
                     jsonstringforpermissions=response;
 
                     new CommonProcs().getpermissiondetails(jArray);
-                    if (response.toLowerCase().contains(":unsuccessful")){
+                    if (response.toLowerCase().contains(":unsuccessful") || response.toLowerCase().contains("error")){
                         return StatusConstants.statusgetpermissionsUnsuccessful;
 
                     }
@@ -819,9 +835,15 @@ break;
                 delegate.processFinish(result);
                 break;
 
+
+            case StatusConstants.statusDeviceErrorDuplicate:
+                Toast.makeText(ctx, StatusConstants.statusDeviceErrorDuplicate, Toast.LENGTH_LONG).show();
+                new CommonProcs().dismisscommonprogressdialog(mProgressDialog);
+                delegate.processFinish(result);
+                break;
+
+
             case StatusConstants.statusRegistrationErrorDuplicate:
-
-
                 Toast.makeText(ctx, StatusConstants.statusRegistrationErrorDuplicate, Toast.LENGTH_LONG).show();
                 new CommonProcs().dismisscommonprogressdialog(mProgressDialog);
                 delegate.processFinish(result);

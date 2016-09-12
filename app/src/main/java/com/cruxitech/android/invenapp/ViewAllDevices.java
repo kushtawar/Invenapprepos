@@ -1,15 +1,21 @@
 package com.cruxitech.android.invenapp;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -62,15 +68,15 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
 
         );
 
-        search=(SearchView) findViewById(R.id.searchfield);
+       /* search=(SearchView) findViewById(R.id.searchfield);
         search.setVisibility(View.VISIBLE);
-        search.setQueryHint("Search");
+        search.setQueryHint("Search");*/
         //*** setOnQueryTextFocusChangeListener ***
 
 
 
 
-        search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+       /* search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -80,7 +86,7 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
             }
         });
 
-        //*** setOnQueryTextListener ***
+        /*//*** setOnQueryTextListener ***
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -97,7 +103,7 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
 
                 return false;
             }
-        });
+        });*/
 
     }
 
@@ -158,7 +164,77 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);//Menu Resource, Menu
 
+
+        MenuItem menuItem = menu.findItem(R.id.menu_search);
+        android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menuItem);
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        //   menuItem.setVisible(false);
+
+
+
+        EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(Color.parseColor("#FFFFFF"));
+        // searchEditText.setHintTextColor(getResources().getColor(R.color.white));
+
+
+        search.setVisibility(View.VISIBLE);
+
+        search.setQueryHint("Search");
+        //*** setOnQueryTextFocusChangeListener ***
+        search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // TODO Auto-generated method stub
+
+
+            }
+        });
+
+        //*** setOnQueryTextListener ***
+        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                ViewAllDevices.this.m_adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // TODO Auto-generated method stub
+
+                if(newText.length()<1){
+                    ViewAllDevices.this.m_adapter.getFilter().filter(null);
+                }
+
+                return false;
+            }
+        });
+
+search.setOnCloseListener(new SearchView.OnCloseListener() {
+    @Override
+    public boolean onClose() {
+        ViewAllDevices.this.m_adapter.getFilter().filter(null);
+        return false;
+    }
+
+
+
+});
+
+
+
+
+        return true;
+    }
 
 
 

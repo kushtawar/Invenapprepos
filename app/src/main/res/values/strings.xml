@@ -5,10 +5,21 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_add_device">AddDevice</string>
     <string name="deviceselect">Laptop</string>
+    <string name="userselect">Select</string>
     <string name="username_hint"><font size="14">Username</font></string>
     <string name="password_hint"><font size="14">Password</font></string>
     <string name="forgotuseremail_hint"><font size="14">Enter Your Registered Email</font></string>
     <string name="code_hint"><font size="14">Enter Code</font></string>
+
+    <string-array name="cluster_arrays">
+
+        <item>Common</item>
+        <item>Consumers</item>
+        <item>mCommerce</item>
+        <item>SDP</item>
+
+    </string-array>
+
     <string-array name="devicetype_arrays">
         <item>    </item>
         <item>Laptop</item>

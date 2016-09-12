@@ -32,10 +32,6 @@ public class Home extends BaseActivity {
 
         txtAccountStatus=(TextView)findViewById(R.id.txtviewAccountStatus);
 
-
-
-
-
         homelist = (ListView)findViewById(R.id.listhomescreen);
 
         HomeAdapter homeadap=new HomeAdapter(this,homecatimgs,homecatnames,homecatcount,homecatextra);
