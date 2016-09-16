@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +33,7 @@ SearchView search=null;
     public static String jsonstringval=null;
 
     ListView lv=null;
-
+    TextView mTitle=null;
     TextView txtviewEmptymydevices=null;
 
     @Override
@@ -39,6 +41,10 @@ SearchView search=null;
         super.onCreate(savedInstanceState);
         jsonstringval=null;
         setContentView(R.layout.activity_view_my_devices);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setVisibility(View.VISIBLE);
+        mTitle.setText(Html.fromHtml("<font><i>" + "All Devices" + "</i></font>"));
         txtviewEmptymydevices=(TextView)findViewById(R.id.txtviewEmptymydevices);
         lv = (ListView)findViewById(R.id.listmydevices);
 
@@ -71,7 +77,13 @@ SearchView search=null;
 
     }
 
-
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(Html.fromHtml("<font><i>" + "My Devices" + "</i></font>"));
+    }
 
     @Override
     public void onBackPressed()
@@ -153,6 +165,15 @@ SearchView search=null;
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 // TODO Auto-generated method stub
+
+
+                Log.d("invenapp", "onFocusChange()" + hasFocus);
+                if(hasFocus){
+                    mTitle.setVisibility(View.GONE);
+                }else
+                {
+                    mTitle.setVisibility(View.VISIBLE);
+                }
 
 
             }

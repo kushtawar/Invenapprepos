@@ -138,7 +138,7 @@ break;
             break;
 
         case "ViewMyDevices":
-            mProgressDialog.setMessage("Please wait data is being loaded ..!!");
+            mProgressDialog.setMessage("Please wait - Your data is being loaded ..!!");
 
             break;
 

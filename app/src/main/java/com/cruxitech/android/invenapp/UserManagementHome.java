@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 
 public class UserManagementHome extends BaseActivity {
 
@@ -19,7 +21,13 @@ public class UserManagementHome extends BaseActivity {
 
     }
 
-
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(Html.fromHtml("<font><i>" + "Admin" + "</i></font>"));
+    }
     public void userReg(View view)
     {
 

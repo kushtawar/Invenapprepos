@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -52,6 +53,11 @@ public class Landingpage extends BaseActivity {
         loggedinname=session.getUserDetails().get(SessionManager.KEY_NAME);
         loggedinuseremail=session.getUserDetails().get(SessionManager.KEY_EMAIL);
 
+        ImageView userimage=(ImageView)findViewById(R.id.userimage);
+        TextView toolbarusername=(TextView)findViewById(R.id.toolbarusername);
+
+        toolbarusername.setVisibility(View.VISIBLE);
+        userimage.setVisibility(View.VISIBLE);
 
         //setviewforpermissions();
         //setviewforaccountstatus();
@@ -120,8 +126,11 @@ public class Landingpage extends BaseActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         buttonback.setVisibility(View.GONE);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+      //  mToolbar.setTitle(Html.fromHtml("<font color='#FFAC6262'><i>" + "Home" + "</i></font>"));
+        mTitle.setText(Html.fromHtml("<font><i>" + "Home" + "</i></font>"));
 
     }
 
@@ -265,8 +274,13 @@ public class Landingpage extends BaseActivity {
 
 
                 Intent intent = getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 finish();
+                overridePendingTransition(0, 0);
                 startActivity(intent);
+               // Landingpage.this.recreate();
+
+
                 setviewforpermissions();
             }
         });

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,13 +32,16 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
     ListView lv=null;
     EditText inputSearch;
     SearchView search=null;
-
+    TextView mTitle=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_devices);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setVisibility(View.VISIBLE);
+        mTitle.setText(Html.fromHtml("<font><i>" + "All Devices" + "</i></font>"));
         jsonstringval=null;
          lv = (ListView)findViewById(com.cruxitech.android.invenapp.R.id.list1);
         txtviewEmptymydevices=(TextView)findViewById(R.id.txtviewEmpty);
@@ -68,48 +72,16 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
 
         );
 
-       /* search=(SearchView) findViewById(R.id.searchfield);
-        search.setVisibility(View.VISIBLE);
-        search.setQueryHint("Search");*/
-        //*** setOnQueryTextFocusChangeListener ***
 
-
-
-
-       /* search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                // TODO Auto-generated method stub
-
-
-            }
-        });
-
-        /*//*** setOnQueryTextListener ***
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                ViewAllDevices.this.m_adapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // TODO Auto-generated method stub
-
-
-                return false;
-            }
-        });*/
 
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+
+
     }
 
     @Override
@@ -170,19 +142,17 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
         getMenuInflater().inflate(R.menu.menu_main, menu);//Menu Resource, Menu
 
 
-        MenuItem menuItem = menu.findItem(R.id.menu_search);
-        android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menuItem);
+         final MenuItem menuItem = menu.findItem(R.id.menu_search);
+        final android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menuItem);
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
-        //   menuItem.setVisible(false);
-
-
 
         EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(Color.parseColor("#FFFFFF"));
         // searchEditText.setHintTextColor(getResources().getColor(R.color.white));
 
 
+
+       // search.setMaxWidth(200);
         search.setVisibility(View.VISIBLE);
 
         search.setQueryHint("Search");
@@ -194,8 +164,22 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
                 // TODO Auto-generated method stub
 
 
+                Log.d("invenapp", "onFocusChange()" + hasFocus);
+if(hasFocus){
+    mTitle.setVisibility(View.GONE);
+}else
+{
+    mTitle.setVisibility(View.VISIBLE);
+}
+
+
             }
         });
+
+
+
+
+
 
         //*** setOnQueryTextListener ***
         search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
@@ -211,7 +195,7 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
             public boolean onQueryTextChange(String newText) {
                 // TODO Auto-generated method stub
 
-                if(newText.length()<1){
+                if (newText.length() < 1) {
                     ViewAllDevices.this.m_adapter.getFilter().filter(null);
                 }
 
@@ -223,9 +207,12 @@ search.setOnCloseListener(new SearchView.OnCloseListener() {
     @Override
     public boolean onClose() {
         ViewAllDevices.this.m_adapter.getFilter().filter(null);
+
+
+        //mTitle.setVisibility(View.VISIBLE);
+       // mTitle.setText(Html.fromHtml("<font><i>" + "All Devices" + "</i></font>"));
         return false;
     }
-
 
 
 });
@@ -233,8 +220,11 @@ search.setOnCloseListener(new SearchView.OnCloseListener() {
 
 
 
+
+
         return true;
     }
+
 
 
 

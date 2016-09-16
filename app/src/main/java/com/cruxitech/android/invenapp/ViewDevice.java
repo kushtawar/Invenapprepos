@@ -58,13 +58,11 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
             btnEditDevice = (Button) findViewById(R.id.buttonEdit);
             btnSaveDevice = (Button) findViewById(R.id.buttonSave);
 
-            ImageView userimage=(ImageView)findViewById(R.id.userimage);
-            TextView toolbarusername=(TextView)findViewById(R.id.toolbarusername);
+          //  btnEditDevice.setEnabled(false);
 
-            toolbarusername.setVisibility(View.GONE);
-            userimage.setVisibility(View.GONE);
 
-this.getspinnerlistfromdatabase(getApplicationContext());
+
+            this.getspinnerlistfromdatabase(getApplicationContext());
 
 
             String[] devicetypeArray = getResources().getStringArray(R.array.devicetype_arrays);
@@ -149,6 +147,9 @@ this.getspinnerlistfromdatabase(getApplicationContext());
     public void methodMakeFieldsEditable(View V)
     {
         this.makefieldseditable(true);
+        while((TextView) DeviceOwner.getSelectedView()==null){
+
+        }
         ((TextView) DeviceOwner.getSelectedView()).setTextColor(Color.parseColor("#000000"));
         btnEditDevice.setVisibility(View.GONE);
         btnSaveDevice.setVisibility(View.VISIBLE);
@@ -440,6 +441,7 @@ this.makefieldseditable(false);
                         DeviceOwner.setSelection(listItems.indexOf(deviceowner));
                     }
 
+                   // btnEditDevice.setEnabled(true);
 
                     DeviceOwner.setEnabled(false);
 

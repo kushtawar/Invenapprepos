@@ -1,6 +1,8 @@
 package com.cruxitech.android.invenapp;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -50,6 +52,14 @@ public class Home extends BaseActivity {
 
 
 
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(Html.fromHtml("<font><i>" + "Home" + "</i></font>"));
     }
 
 }

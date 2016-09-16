@@ -70,7 +70,7 @@ public static String methodbase;
 
 
 
-case R.id.menu_search:
+        case R.id.menu_search:
 
         this.callsearchfunction();
           return true;
@@ -107,6 +107,8 @@ case R.id.menu_search:
     }
 
     public void callsearchfunction() {
+
+
     }
 
     public void changePassword() {

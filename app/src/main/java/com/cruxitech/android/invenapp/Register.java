@@ -30,6 +30,14 @@ public class Register extends AppCompatActivity implements AsyncResponse{
         ET_USER_CONFIRM_PASS = (EditText)findViewById(R.id.new_user_confirmpass);
         ET_USER_EMAIL = (EditText)findViewById(R.id.new_user_email);
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        
+    }
+
+
     public void userReg(View view)
     {
 
