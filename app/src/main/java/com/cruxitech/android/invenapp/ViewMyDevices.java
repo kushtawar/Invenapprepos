@@ -28,11 +28,12 @@ public class ViewMyDevices extends BaseActivity implements AsyncResponse {
     public static ProgressDialog m_ProgressDialog = null;
     private ArrayList<DeviceOrder> m_orders = null;
     private static DeviceOrderAdapter m_adapter;
-SearchView search=null;
+    SearchView search=null;
 
     public static String jsonstringval=null;
 
     ListView lv=null;
+
     TextView mTitle=null;
     TextView txtviewEmptymydevices=null;
 
@@ -90,7 +91,7 @@ SearchView search=null;
     {
         super.onBackPressed();
         finish();
-        startActivity(new Intent(ViewMyDevices.this, Landingpage.class));
+        startActivity(new Intent(ViewMyDevices.this, Home.class));
 
 
     }
@@ -168,11 +169,8 @@ SearchView search=null;
 
 
                 Log.d("invenapp", "onFocusChange()" + hasFocus);
-                if(hasFocus){
+                if ((hasFocus) || (((SearchView) v).getQuery().toString().trim().length()>0) ){
                     mTitle.setVisibility(View.GONE);
-                }else
-                {
-                    mTitle.setVisibility(View.VISIBLE);
                 }
 
 
@@ -203,6 +201,7 @@ SearchView search=null;
             @Override
             public boolean onClose() {
                 ViewMyDevices.this.m_adapter.getFilter().filter(null);
+                mTitle.setVisibility(View.VISIBLE);
                 return false;
             }
         });
@@ -211,4 +210,16 @@ SearchView search=null;
 
         return true;
     }
+
+    @Override
+    public void refresh() {
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+
+    }
+
+
 }

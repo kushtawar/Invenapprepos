@@ -71,4 +71,15 @@ public class StatusConstants {
     public static final String userroles="userroles";
     public static final String rolepermissions="rolepermissions";
 
+
+    public static final String homeadmin="Admin";
+    public static final String homeviewmy="My Devices";
+    public static final String homeviewall="View All Devices";
+    public static final String homeaddnew="Add New Device";
+
+
+
+
+
+
 }

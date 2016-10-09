@@ -45,6 +45,7 @@
         android:textColor="#FFFFFF"
         android:background="@drawable/mybutton"
         android:id="@+id/buttonEdit"
+        android:enabled="false"
         android:onClick="methodMakeFieldsEditable"
         />
 

@@ -54,6 +54,7 @@ public class Register extends AppCompatActivity implements AsyncResponse{
 
             } else {
                 String method = "registration";
+                String password = CommonProcs.getpassword(user_pass);
                 BackgroundTask backgroundTask = new BackgroundTask(this, new AsyncResponse() {
                     @Override
                     public void processFinish(String output) {
@@ -76,12 +77,10 @@ public class Register extends AppCompatActivity implements AsyncResponse{
                             builder.create().show();
 
 
-
-
                         }
                     }
                 });
-                backgroundTask.execute(method, name, user_name, user_pass, user_email);
+                backgroundTask.execute(method, name, user_name, password, user_email);
                // finish();
             }
         }

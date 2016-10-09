@@ -42,12 +42,12 @@ public class Landingpage extends BaseActivity {
 
         txtheaderaccountactivate=(TextView)findViewById(R.id.txtHeaderAccountActivate);
         txtAccountStatus=(TextView)findViewById(R.id.txtviewAccountStatus);
-         btnAdminView=(Button)findViewById(R.id.btnAdminView);
-         btnViewmydevices=(Button)findViewById(R.id.btnViewmydevices);
-         btnAddNewDevice=(Button)findViewById(R.id.btnAddNewDevice);
-         btnViewAllDevices=(Button)findViewById(R.id.btnViewAllDevices);
+        btnAdminView=(Button)findViewById(R.id.btnAdminView);
+        btnViewmydevices=(Button)findViewById(R.id.btnViewmydevices);
+        btnAddNewDevice=(Button)findViewById(R.id.btnAddNewDevice);
+        btnViewAllDevices=(Button)findViewById(R.id.btnViewAllDevices);
 
-         layoutparams = (RelativeLayout.LayoutParams)btnViewmydevices.getLayoutParams();
+        layoutparams = (RelativeLayout.LayoutParams)btnViewmydevices.getLayoutParams();
         loggedinuniqueuserid=session.getUserDetails().get(SessionManager.KEY_UNIQUEUSERID);
         loggedinusername=session.getUserDetails().get(SessionManager.KEY_USERNAME);
         loggedinname=session.getUserDetails().get(SessionManager.KEY_NAME);
@@ -288,9 +288,16 @@ public class Landingpage extends BaseActivity {
     }
 
     @Override
-    protected void refresh() {
+    public void refresh() {
         this.refreshpage();
 
     }
+
+    public void newhome(View view) {
+
+        startActivity(new Intent(Landingpage.this, Home.class));
+        // finish();
+    }
+
 
 }

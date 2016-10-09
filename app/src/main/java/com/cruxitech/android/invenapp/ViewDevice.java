@@ -58,9 +58,8 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
             btnEditDevice = (Button) findViewById(R.id.buttonEdit);
             btnSaveDevice = (Button) findViewById(R.id.buttonSave);
 
-          //  btnEditDevice.setEnabled(false);
-
-
+            btnEditDevice.setTextColor(Color.parseColor("#FF9E9B9B"));
+            btnEditDevice.setEnabled(false);
 
             this.getspinnerlistfromdatabase(getApplicationContext());
 
@@ -135,7 +134,7 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
                 finish();
                 break;
             default:
-                startActivity(new Intent(ViewDevice.this, Landingpage.class));
+                startActivity(new Intent(ViewDevice.this, Home.class));
                 finish();
                 break;
 
@@ -176,11 +175,13 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
 
 
                     devtype = DeviceType.getSelectedItem().toString();
-                    devno = DeviceNo.getText().toString();
-                    devowner = DeviceOwner.getSelectedItem().toString();
                     devlocation = DeviceLocation.getSelectedItem().toString();
                     devmanufacturer = DeviceManufacturer.getSelectedItem().toString();
+                    devowner = DeviceOwner.getSelectedItem().toString();
+                    devcluster=DeviceCluster.getSelectedItem().toString();
+                    devno = DeviceNo.getText().toString();
                     devmodel = DeviceModel.getText().toString();
+
 
 
                     Log.d("cruxapp", "devtype:" + devtype);
@@ -350,11 +351,13 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
         this.makefieldseditable(true);
 
         DeviceType.setSelection(((ArrayAdapter) DeviceType.getAdapter()).getPosition(devicetype));
-    DeviceLocation.setSelection(((ArrayAdapter) DeviceLocation.getAdapter()).getPosition(devicelocation));
+        DeviceLocation.setSelection(((ArrayAdapter) DeviceLocation.getAdapter()).getPosition(devicelocation));
         DeviceManufacturer.setSelection(((ArrayAdapter) DeviceManufacturer.getAdapter()).getPosition(devicemanufacturer));
-    DeviceNo.setText(deviceno);
-     //   DeviceOwner.setSelection(listItems.indexOf(deviceowner));
-    DeviceModel.setText(devicemodel);
+        DeviceNo.setText(deviceno);
+        DeviceCluster.setSelection(((ArrayAdapter) DeviceCluster.getAdapter()).getPosition(devcluster));
+
+        //   DeviceOwner.setSelection(listItems.indexOf(deviceowner));
+        DeviceModel.setText(devicemodel);
 
 this.makefieldseditable(false);
 
@@ -370,10 +373,6 @@ this.makefieldseditable(false);
         DeviceCluster.setEnabled(settoEnable);
         DeviceOwner.setEnabled(settoEnable);
         DeviceModel.setEnabled(settoEnable);
-
-
-
-
 
         }
 
@@ -405,9 +404,6 @@ this.makefieldseditable(false);
 
         }
 
-
-
-
     }
 
 
@@ -417,12 +413,15 @@ this.makefieldseditable(false);
 
         //   BackgroundTask.m_list=null;
 
-        BackgroundTask backgroundTask = new BackgroundTask(ctx, new AsyncResponse() {
+        BackgroundTask backgroundTask = new BackgroundTask(ViewDevice.this, new AsyncResponse() {
 
             @Override
             public void processFinish(String output) {
                 Log.e("invenapp:method:", new CommonProcs().getMethodname() + ":output:" + output);
                 if (output.equals(StatusConstants.listretrievalSuccessful)) {
+
+                    btnEditDevice.setEnabled(true);
+                    btnEditDevice.setTextColor(Color.parseColor("#FFFFFF"));
 
                     listItems = BackgroundTask.m_list_users;
 
@@ -441,7 +440,7 @@ this.makefieldseditable(false);
                         DeviceOwner.setSelection(listItems.indexOf(deviceowner));
                     }
 
-                   // btnEditDevice.setEnabled(true);
+
 
                     DeviceOwner.setEnabled(false);
 
@@ -469,9 +468,6 @@ this.makefieldseditable(false);
 
                         }
                     });
-
-
-
 
                     AddDevice.flagitemsupdate=true;
 

@@ -57,10 +57,11 @@
         android:layout_height="wrap_content"
         android:hint="@string/username_hint"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColorHint="#CCC"
+
         android:imeOptions="actionNext"
         android:singleLine="true"
         android:textCursorDrawable="@drawable/mycursor"
+        android:textColorHint="#CCC"
         android:textColor="#000"
         android:id="@+id/user_name"
         android:textStyle="bold"
@@ -117,11 +118,12 @@
     <Button
         android:layout_marginTop="20dp"
         android:layout_width="250dp"
+        android:background="@drawable/mybutton"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
         android:visibility="gone"
         android:text="Submit"
-        android:background="@drawable/mybutton"
+
         android:textStyle="bold"
         android:onClick="sendCoderesetpassword"
         android:layout_gravity="center_horizontal"

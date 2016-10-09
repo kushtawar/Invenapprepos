@@ -88,7 +88,7 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        startActivity(new Intent(ViewAllDevices.this, Landingpage.class));
+        startActivity(new Intent(ViewAllDevices.this, Home.class));
 
 
     }
@@ -165,12 +165,13 @@ public class ViewAllDevices extends BaseActivity implements AsyncResponse {
 
 
                 Log.d("invenapp", "onFocusChange()" + hasFocus);
-if(hasFocus){
-    mTitle.setVisibility(View.GONE);
-}else
-{
-    mTitle.setVisibility(View.VISIBLE);
-}
+                if ((hasFocus) || (((SearchView) v).getQuery().toString().trim().length()>0) ){
+                    mTitle.setVisibility(View.GONE);
+                }
+                /*else
+                {
+                    mTitle.setVisibility(View.VISIBLE);
+                }*/
 
 
             }
@@ -207,9 +208,7 @@ search.setOnCloseListener(new SearchView.OnCloseListener() {
     @Override
     public boolean onClose() {
         ViewAllDevices.this.m_adapter.getFilter().filter(null);
-
-
-        //mTitle.setVisibility(View.VISIBLE);
+        mTitle.setVisibility(View.VISIBLE);
        // mTitle.setText(Html.fromHtml("<font><i>" + "All Devices" + "</i></font>"));
         return false;
     }
@@ -226,7 +225,15 @@ search.setOnCloseListener(new SearchView.OnCloseListener() {
     }
 
 
+    @Override
+    public void refresh() {
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
 
+    }
 
 
 }

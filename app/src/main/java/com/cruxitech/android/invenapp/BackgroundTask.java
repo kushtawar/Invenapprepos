@@ -35,6 +35,7 @@ import java.util.HashMap;
     String method=null;
     private ProgressDialog mProgressDialog;
 
+
     public JSONArray jArray = null;
     JSONArray jsonar = new JSONArray();
 
@@ -75,15 +76,12 @@ try {
     session = new SessionManager(ctx.getApplicationContext());
 
     HashMap<String, String> user = session.getUserDetails();
-
     // name
     loggedin_username = user.get(SessionManager.KEY_USERNAME);
-
     // email
     loggedin_user_email = user.get(SessionManager.KEY_EMAIL);
 
     switch (ctx.getClass().getSimpleName()) {
-
 
         case "Landingpage":
             switch (BaseActivity.methodbase) {
@@ -97,7 +95,21 @@ try {
                     new CommonProcs().commonprogressdialog(mProgressDialog);
                     break;
             }
-break;
+        break;
+
+        case "Home":
+            switch (BaseActivity.methodbase) {
+
+                case "activateaccount":
+                    mProgressDialog.setMessage("Authorizing!!");
+                    new CommonProcs().commonprogressdialog(mProgressDialog);
+                    break;
+                case "getpermissions":
+                    mProgressDialog.setMessage("Checking the assigned roles!!");
+                    new CommonProcs().commonprogressdialog(mProgressDialog);
+                    break;
+            }
+            break;
 
         case "MainActivity":
 
@@ -133,7 +145,7 @@ break;
             break;
 
         case "ViewAllDevices":
-            mProgressDialog.setMessage("Give us few seconds while we find all available devices ..!!");
+            mProgressDialog.setMessage("Give us few seconds while we find all the available devices ..!!");
 
             break;
 
@@ -152,6 +164,10 @@ break;
 
         case "PasswordChange":
             mProgressDialog.setMessage("Your password is being changed. Please do not press Back button..");
+            break;
+
+        case "Application":
+            mProgressDialog.setMessage("Please wait - Your data is being loaded ..!!");
             break;
 
         default:
@@ -175,9 +191,12 @@ break;
     protected void onPreExecute() {
 
         try {
+
             mProgressDialog.show();
+
+
         }catch (Exception ex){
-            Log.e("invenapp:preexecute",ex.getStackTrace().toString());
+            Log.e("invenapp:preexecute",ex.getMessage());
         }
 
     }
@@ -827,8 +846,6 @@ break;
             case StatusConstants.statusAddDeviceSuccessful:
             case StatusConstants.insertionuserrolesSuccessful:
             case StatusConstants.statusgetpermissionsSuccessful:
-
-
 
                // Toast.makeText(ctx, "Refreshing..", Toast.LENGTH_SHORT).show();
                 new CommonProcs().dismisscommonprogressdialog(mProgressDialog);

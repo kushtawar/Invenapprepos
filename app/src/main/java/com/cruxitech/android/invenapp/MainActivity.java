@@ -98,7 +98,7 @@ public static String methodmain=null;
         }
         else
         {
-            Intent inte = new Intent(this, Landingpage.class);
+            Intent inte = new Intent(this, Home.class);
 
             startActivity(inte);
             finish();
@@ -162,7 +162,12 @@ setBacktologinview();
         login_name = ET_NAME.getText().toString();
         login_pass = ET_PASS.getText().toString();
 
+
+
+
         if (login_name.trim().length() > 0 && login_pass.trim().length() > 0) {
+
+            login_pass = CommonProcs.getpassword(ET_PASS.getText().toString());
 
 
              methodmain = "login";
@@ -191,7 +196,7 @@ setBacktologinview();
                                             session.createUserRolesPermissions(BackgroundTask.m_list_permissions);
 
 
-                                            Intent inte = new Intent(MainActivity.this, Landingpage.class);
+                                            Intent inte = new Intent(MainActivity.this, Home.class);
                                             inte.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(inte);
                                             finish();
@@ -211,7 +216,7 @@ setBacktologinview();
 
                                     session.commiteditor();
 
-                                    Intent inte = new Intent(MainActivity.this, Landingpage.class);
+                                    Intent inte = new Intent(MainActivity.this, Home.class);
                                     inte.setAction(Intent.ACTION_MAIN);
                                     inte.addCategory(Intent.CATEGORY_LAUNCHER);
                                         startActivity(inte);

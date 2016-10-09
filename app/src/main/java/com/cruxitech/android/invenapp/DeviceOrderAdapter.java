@@ -113,22 +113,42 @@ public class DeviceOrderAdapter extends BaseAdapter implements Filterable {
             }
 
             if (devnoview != null) {
-                devnoview.setText(o.getDevno());
+                String retievedstring=o.getDevno();
+                String shortdevno = retievedstring.substring(0, Math.min(retievedstring.length(), 8));
+                String finalstring=(retievedstring.length()>8)?shortdevno+"...":shortdevno;
+                devnoview.setText(finalstring);
+
             }
             if (devownerview != null) {
-                devownerview.setText(o.getDevowner());
+                String retievedstring=o.getDevowner();
+                String shortdevowner = retievedstring.substring(0, Math.min(retievedstring.length(), 8));
+                String finalstring=(retievedstring.length()>8)?shortdevowner+"...":shortdevowner;
+                devownerview.setText(finalstring);
             }
-////
+
 
             if (devlocation != null) {
-                devlocation.setText(o.getDevlocation());
+
+                String retievedstring=o.getDevlocation();
+                String shortdevlocation = retievedstring.substring(0, Math.min(retievedstring.length(), 8));
+                String finalstring=(retievedstring.length()>8)?shortdevlocation+"...":shortdevlocation;
+                devlocation.setText(finalstring);
+
             }
             if (devmanufacturer != null) {
-                devmanufacturer.setText(o.getDevmanufacturer());
+
+                String retievedstring=o.getDevmanufacturer();
+                String shortdevmanufacturer = retievedstring.substring(0, Math.min(retievedstring.length(), 8));
+                String finalstring=(retievedstring.length()>8)?shortdevmanufacturer+"...":shortdevmanufacturer;
+                devmanufacturer.setText(finalstring);
             }
 
             if (devlastupdatedby != null) {
-                devlastupdatedby.setText(o.getLastupdatedby());
+
+                String retievedstring=o.getLastupdatedby();
+                String shortdevlastupdatedby = retievedstring.substring(0, Math.min(retievedstring.length(), 8));
+                String finalstring=(retievedstring.length()>8)?shortdevlastupdatedby+"...":shortdevlastupdatedby;
+                devlastupdatedby.setText(finalstring);
             }
 
             if (devlastupdatedon != null) {

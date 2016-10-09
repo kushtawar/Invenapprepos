@@ -78,22 +78,7 @@ android:layout_centerHorizontal="true"
         />
 
 
-    <TextView
-        android:id="@+id/NewHome"
-        android:layout_below="@+id/ManageUserRoles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Home"
-        android:typeface="serif"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textStyle="bold"
-        android:textColor="#f1ed3c06"
-        android:onClick="newhome"
-        android:clickable="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:visibility="visible"
-        />
+
 
 </RelativeLayout>
 </ScrollView>

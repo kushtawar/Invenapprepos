@@ -24,10 +24,28 @@
 
 
             <TextView
-                android:id="@+id/txtviewAccountStatus"
+                android:id="@+id/txtHeaderAccountActivate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                android:layout_centerHorizontal="true"
+                android:textColor="#010500"
+                android:text="Please click on the below link to activate your account. You will be asked to enter the 6 digit unique code sent on your registered email."
+                android:typeface="serif"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerInParent="true"
+
+                android:visibility="gone"
+
+                />
+
+            <TextView
+                android:id="@+id/txtviewAccountStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtHeaderAccountActivate"
                 android:layout_centerHorizontal="true"
                 android:textColor="#19540b"
                 android:text="Activate Account"
@@ -54,7 +72,7 @@
                 android:dividerHeight="4dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@drawable/listviewcurve"
-                android:listSelector="@drawable/listselected"
+
                 />
 
 

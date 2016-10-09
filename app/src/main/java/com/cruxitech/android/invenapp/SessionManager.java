@@ -47,6 +47,7 @@ public class SessionManager {
     public static final String role_viewown="View_Own";
     public static final String role_viewall="View_All_Devices";
     public static final String role_adddevice="Add_Device";
+    public static final String role_editdevice="Edit_Device";
     public static final String role_deviceadmin="Device_Admin";
     public static final String role_useradmin="User_Admin";
     public static final String role_superuser="Super_User";

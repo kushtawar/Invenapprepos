@@ -120,12 +120,12 @@ public static String methodbase;
 
     protected void logout() {
         session.logoutUser();
-        Landingpage.landingpage.finish();
+        Home.homepage.finish();
 
         finish();
     }
 
-    protected void refresh() {
+    public void refresh() {
         Toast.makeText(getApplicationContext(), "Refreshing..", Toast.LENGTH_LONG).show();
 
     }

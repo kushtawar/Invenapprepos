@@ -86,7 +86,7 @@ public class PasswordChange extends BaseActivity {
                             builder.setTitle(Html.fromHtml("<font color='#D23927'>" + "Change Password Successful" + "</font>"));
                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(PasswordChange.this, Landingpage.class));
+                                    startActivity(new Intent(PasswordChange.this, Home.class));
                                     finish();
                                 }
                             });

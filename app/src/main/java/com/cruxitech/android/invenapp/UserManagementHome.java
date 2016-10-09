@@ -60,7 +60,7 @@ public class UserManagementHome extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        startActivity(new Intent(this, Landingpage.class));
+        startActivity(new Intent(this, Home.class));
     }
 
     public void newhome(View view) {
