@@ -347,7 +347,7 @@ private  String devuniqueid,devicetype,devicelocation,devicemanufacturer,devicen
 
 
     private void setdefaultvalues() {
-
+//
         this.makefieldseditable(true);
 
         DeviceType.setSelection(((ArrayAdapter) DeviceType.getAdapter()).getPosition(devicetype));
